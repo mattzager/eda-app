@@ -10,19 +10,18 @@
           exclude_keys: ['sender', 'owner']
         - ansible.eda.dashes_to_underscores:
 
-
   rules:
   # Capture push events on main
-    - name: Get push event details
-      condition: event.meta.headers.X_Gitea_Event == "push"
-      action:
-        post_event:
-          event:
-            type: "{{ event.meta.headers.X_Gitea_Event }}"
-            gitref: "{{ event.payload.ref }}"
-            repo_name: "{{ event.payload.repository.name }}"
-            author: "{{ event.payload.head_commit.author.username }}"
-            clone_url: "{{ event.payload.repository.clone_url }}"
+  - name: Get push event details
+    condition: event.meta.headers.X_Gitea_Event == "push"
+    action:
+      post_event:
+        event:
+          type: "{{ event.meta.headers.X_Gitea_Event }}"
+          gitref: "{{ event.payload.ref }}"
+          repo_name: "{{ event.payload.repository.name }}"
+          author: "{{ event.payload.head_commit.author.username }}"
+          clone_url: "{{ event.payload.repository.clone_url }}"
 
 
   # Run action in response to push events
